@@ -1,10 +1,3 @@
-section .data
-    msg1 db "Iniciando sqrt_asm...", 0ah, 0
-    msg2 db "Número recebido: ", 0
-    msg3 db "Calculando...", 0ah, 0
-    msg4 db "Resultado: ", 0
-    newline db 0ah, 0
-    buffer db 10 dup(0)  ; Buffer para conversão de número
 
 section .text
     global sqrt_asm
@@ -43,6 +36,7 @@ loop_start:
     mov eax, ecx       ; Move N para eax
     xor edx, edx       ; Limpa edx para divisão
     div ebx            ; N/Xn
+    
     add eax, ebx       ; + Xn
     shr eax, 1         ; /2
     
@@ -58,5 +52,6 @@ done_zero:
     xor eax, eax       ; Retorna 0 para números negativos ou zero
     
 done:
+    mov eax, ebx       ; Move o resultado final para eax
     pop ebp
     ret

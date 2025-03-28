@@ -32,8 +32,6 @@ loop_start:
     div ebx            ; Divide ax por bx (N/Xn)
     
     add eax, ebx       ; Soma a raiz aproximada (Xn)
-    
-    ; Faz a divisão por 2
     shr eax, 1         ; Divide por 2 usando shift right
     
     ; Verifica se convergiu
