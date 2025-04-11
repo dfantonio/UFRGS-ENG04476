@@ -1,0 +1,249 @@
+Sistema binário – Parte I
+Veja nesta série de artigos como todas as operações que o computador faz, desde permitir-nos a escrever um simples texto até jogar jogos 3D são realizados utilizando apenas dois valores, que por convenção são os dígitos “0” (zero) e “1” (um).
+
+
+Introdução
+
+Os computadores trabalham com um sistema incrível, que utiliza apenas dois valores para  manipular qualquer informação. Isso quer dizer que todas as operações que o computador faz, desde permitir-nos a escrever um simples texto até jogar jogos 3D são realizados utilizando apenas dois valores, que por convenção são os dígitos “0” (zero) e “1” (um). Mas como isso é possível? Como o computador consegue dar andamento a todos os seus processos utilizando apenas os dígitos “0” e “1”? Como que isso tudo funciona na prática? Será que dentro de um processador ou em um CD/DVD veremos, literalmente, uma fileira de “0s” e “1s”? É exatamente isso  que veremos nessa pequena série de artigos.
+
+O que é binário?
+
+De forma geral, binário é um sistema  que utiliza apenas dois valores para representar suas quantias. É um sistema de base dois. Esses dois valores são o “0” e o “1”.
+
+Daí podemos concluir que para 0 temos desligado, sem sinal, e para 1 temos ligado ou com sinal.
+
+Vale ressaltar que o sistema que utilizamos diariamente é o sistema de base dez, chamado também por base decimal. Esse sistema utiliza os algarismos indo-arábicos, que são: 0, 1, 2, 3, 4, 5, 6, 7, 8, e 9.
+
+Nós seres humanos fomos “treinados” para trabalhar com a base decimal. Ela é a ideal para nós. Mas, para os computadores a base binária é a ideal.
+
+Nos computadores esses zeros (“0s”) e uns (“1s”) são chamados de dígitos binários ou somente bit (conjunção de duas palavras da língua inglesa binary digit), que é a menor unidade de informação dos computadores. Dessa forma, tanto faz dizer dígito “0” e dígito “1”, ou, bit “0” e bit “1”.
+
+Formação de informações / O caractere.
+
+São esses bits que formam qualquer informação, porém, um bit sozinho não faz nada, é apenas um sinal qualquer. Para que os bits possam realmente formar uma informação, precisam ser agrupados, reunidos. Esses grupos podem ser de 8, 16, 32 ou 64 bits.
+
+8 bits
+
+10100110
+
+Apesar de parecer ser um sistema limitado, agrupando bits é possível fazer uma infinidade de representações. Vamos pegar como exemplo um grupo de 8 bits), onde é possível  fazer as seguintes representações para os números decimais:
+
+Na tabela 01 os números decimais estão representados em grupos de oito bits. Mas, acontece que, como ocorre no sistema decimal, todo zero que estiver a esquerda de dígitos binários não valem nada. Por exemplo: o decimal 14 é  1110 em binário, o mesmo que 00001110 ou  000000001110 ou ainda  ...0000000000001110.
+
+Como disse, o computador reuni grupos predefinidos de bits (8, 16, 32 ou 64) para formar uma informação, ou seja, um caractere. Um caractere é qualquer letra, número ou símbolo.
+
+10100110 à 8 bits = um caractere qualquer
+
+1 + 1 = ?
+
+Como este assunto é considerado “chato” por muitos estudantes, vamos a uma brincadeirinha. Quanto é 1 + 1?
+
+Bem, todos devem responder “2”.
+
+Mas, eu não disse qual é a base (decimal ou binária). Se for decimal dará 2. E se for binária? Nesse caso dará 10.
+
+Palavra
+
+Agora vou explicar algo importante a saber: o conceito de “palavras”. Na terminologia dos computadores, palavra é um grupo de algarismos binário (bits) que podem ocupar uma localização na memória, e, que podem ser processados de uma só vez, podendo ser um número binário que é para ser manuseado como um dado, ou, uma instrução que diz ao computador que operação deve ser executada. Pode ser também um caractere ASCII representando uma letra do alfabeto, ou ainda, um endereço que diz ao processador onde se localiza um dado.
+
+Existem tamanhos de palavras diferentes, onde cada um recebe um nome, veja:
+
+· 4 bits = nibble (24 =16 variações);
+
+· 8 bits = byte (28 = 256 variações);
+
+· 16 bits = palavra (216 = 65.536 variações);
+'
+· 32 bits = palavra dupla (232 = 4.294.967.296 variações);
+
+· 64 bits = palavra quadrupla(264 = 18.446.744.073.709.551.616 variações).
+
+Para entender melhor, imagine que com palavras de 8 bits, as instruções, os endereços, os números e dados são representados por números binários de 8 bits. Dessa forma o menor número binário é 00000000 (ou 00 em hexadecimal), e, o maior número é 11111111 (ou FF em hexadecimal), o que corresponde de 0 a 256 valores diferentes (variações).
+
+Quanto maior a palavra, maior será o número que se pode trabalhar. Por exemplo: com palavras de 16 bits  pode-se trabalhar com números decimais até 65.536. É preciso frisar aqui que apesar de um determinado PC usar palavras de 8 bits, por exemplo, não significa que o processador desse PC ficará restringido a números decimais inferiores a 256. Simplesmente significa que será necessário usar duas ou mais palavras para representar números maiores. Dessa forma é certo dizer que um processador de 32 bits é mais rápido que um de 16 bits, pois, este último será obrigado a dividir números maiores (acima de 65.536) em números menores que sejam possíveis de se manipular com 16 bits, o que levará mais tempo. 
+
+Está confuso?
+
+Atualmente os processadores acessam a memória a 64 bits por vez, porém, continuamos a usar o nome BYTE para referir ao tamanho de uma memória.
+
+O correto seria usar “BYTE” para designar o tamanho de uma memória de 8 bits, e, QUAD WORD para memórias de 64 bits.
+
+Mas, qual seria o lado prático disso? Nenhum, e pior, acaba confundindo, pois, imagine ter que usar BYTE para memórias de 8 bits (SIMM/30), WORD para memórias de 16 bits, e assim sucessivamente. Por isso até hoje o usual é o BYTE para designar o tamanho de uma memória.
+
+Na prática
+
+Agora um ponto importante. Como que isso tudo funciona na prática? Será que dentro de um processador ou em um CD/DVD veremos, literalmente, uma fileira de “0s” e “1s”? Não é assim que funciona.
+
+Infelizmente eu já vi muitas publicações fazerem afirmações totalmente erradas, que só servem para confundir a cabeça de quem está aprendendo. Li uma certa vez que se você pagasse um CD-ROM e “ampliasse” a sua superfície de gravação, viria uma série de “0s” e “1s”. Ora, não é assim que funciona.
+
+Em nível de eletrônica, os bits 0 e 1 são representados através de valores de tensão. Por exemplo: o bit 0 pode ser representado por valores entre 0 e 0,3 volts. Já o bit 1 pode ser representado por valores entre 2 e 5 volts. Esses números são apenas exemplos, não estamos afirmando aqui que são exatamente esses valores.
+
+De forma geral, qualquer valor pode ser usado para representar os bits, depende do projeto, da aplicação e da tecnologia empregada. Com o avanço da tecnologia dos computadores, passou a se usar tensões cada vez menores, pois, os dispositivos eletrônicos passaram a trabalhar com tensões menores. Nos computadores são usados valores muito baixos, tais como esses que acabamos de mencionar.
+
+Já o CD/DVD (dispositivos ópticos) armazenam as informações em forma de pequenos pontos denominados Pits e um espaço entre eles denominado Lands, que são interpretados no processo de leitura como “0s” e “1s” (bits).
+
+Era Digital
+
+Em nosso cotidiano é comum ouvir frases do tipo “era digital” ou “sistemas digitais” ou ainda “TV digital”. Mas, o que é digital? Resumidamente, digital é tudo aquilo que pode ser transmitido e/ou armazenado através de bits.
+
+Um dispositivo digital é aquele que utiliza os bits para manipular qualquer tipo de informação (dados).
+
+Abordagem Estrutural sobre Arquitetura e Organização de Computadores
+Este artigo está voltado para aqueles que precisam de uma revisão para as aulas de Arquitetura e Organização Estrutural de Computadores nos cursos de Tecnologia, Engenharias e Computação.
+
+por Nilton Sango Guimarães
+
+
+1. RESUMO
+
+Este artigo está voltado para aqueles que precisam de uma revisão para as aulas de Arquitetura e Organização Estrutural de Computadores nos cursos de Tecnologia, Engenharias e Computação; Também, seria interessante toda a comunidade estar verificando a arquitetura envolvida na construção de computadores (barramentos, interfaceamento, organização dos computadores, comparativos de performance entre processadores). Em anexo segue vários projetos de arquiteturas construídas em laboratórios (controladores, multiplexadores, registradores, memórias, ULA, etc). São 24 projetos desenvolvidos pela minha equipe. Estão no formato CKT (software Circuit Maker 2000 - Versão Student, disponível em (www.circuitmaker.com/).
+
+2. REVISÃO DE ARQUITETURA E ORGANIZAÇÃO DE COMPUTADORES
+
+2. 1 - BARRAMENTOS
+
+- É a ligação entre a CPU e a memória principal através de fios de comunicação (trilhas). São conjuntos de fios por onde trafegam dados e informações. Os barramentos podem ser unidirecionais ou bidirecionais.
+
+- Existem 3 tipos de barramentos:
+Bus Control (barramento de controle) - por onde a CPU envia os pulsos de controle para a memória principal;
+Bus Data (barramento de dados) - por onde envia os dados e informações;
+Bus Adress (barramento de endereço) - permite o acesso ao endereço da informação.
+Dispositivos ligados a estes barramentos recebem o nome de ativos (mestre), passivos (escravos). Os barramentos mestres são bus drive (pastilhas acionadoras de barramentos).
+
+Os barramentos escravos são bus receiver (pastilhas receptoras de barramentos). Existem ainda pastilhas acionadoras e repectoras de barramentos (bus tranceiver).
+
+Os barramentos possuem as seguintes características:
+Número de linhas;
+Temporização do barramento;
+Tratamento de erros;
+Mecanismo de arbitragem;
+Tratamento de interrupções;
+Barramentos Síncronos - Suas etapas são moldadas no cristal (relógio) do sistema. Possuem taxa de transferência em blocos, podendo ocorrer atraso/desvio (bus skew). Utiliza pinos Mreq.
+
+Barramentos Assíncronos - não utilizam relógios do sistema, trabalham com múltiplos inteiros. Neste tipo apresenta um esquema Msyn e Ssyn (barrados). Onde que cada um ativa/desativa o sistema.
+
+Arbitragem - Indica ao dispositivo do barramento se ele pode ler e escrever dados na memória principal, ou seja, se ele pode ser mestre ou escravo simultaneamente. Existem 2 tipo de mecanismo de arbitragem:
+Centralizada - Um arbitra para o tipo de barramento a ser utilizado;
+Descentralizada - Nenhum arbitro usado no barramento, somente pastilhas acionadoras de prioridade que consumem maior numero de linhas de barramento (desvantagem). A vantagem é que o custo é menor.
+Interrupções - É o ato que parar (interromper) um determinado fluxo de dados/informações entre CPU e memória principal. Toda a vez que ocorre uma interrupção, o sistema para momentaneamente a execução de um determinado problema e trata a interrupção gerada. Após o termino do tratamento da interrupção, o sistema volta a executar normalmente o fluxo de dados/informações.
+
+2.2 - PASTILHAS MICROPROCESSADAS
+
+80806 - 8088
+NMOS;
+20 LINHAS DE ENDEREÇAMENTO;
+16 LINHAS EXTERNA E 16 LINHAS INTERNA (8086)
+8 LINHAS EXTERNA E 16 LINHAS INTERNA (8088)
+TRABALHAM EM MN/MX - MODO MÍNIMO/MODO MÁXIMO.
+INTEL 8088
+Possuem 2 processadores em sua CPU ( EU - Unidade de Execução) e BIU (unidade de interface de barramento - executa a comunicação no meio externo através de 16 linhas externa e 20 linhas de endereçamento de memória).
+Trabalham com barramentos assíncronos, ou seja, suas etapas não são moldadas no cristal do sistema. Trabalham em modo máximo e modo mínimo.
+INTEL 286
+Possuem 3 vantagens em relação ao 8088 - 1 - tanto o modo kernel quanto o modo usuário estão mais protegidos; 2 - está com uma banda externa duas vezes maior do que o 8088 trabalhando com 16 linhas de endereçamento. 3 - internamente ele é mais rápido do que o 8088.
+Não funcionam em modo máximo e mínimo, porém, possuem um pino chamado BHE (barrado) - habilitação alta do barramento, por onde são transferidas até 16 bits de palavras de cada vez.
+Possuem 16 linhas externas, sendo 7 usadas:
+Look e Ready - troca de barramento e estado da CPU;
+Hold - mecanismo de arbitragem do barramento;
+IntR e NMI - permite a interrupção da CPU;
+Reset - reinicia o estado atual do barramento;
+BUSY e ERROR - verifica o estado do co-processador e espera a resposta até a Conclusão da sua operação.
+Trabalham com etapas moldadas no cristal do sistema;
+Trabalham 4 usos de unidades
+Unidade de Barramento: Operam todas as atividades do processador.
+Unidade de Execução - executam todas as instruções, exceto endereços, vindas da unidade de instrução.
+Unidade de Instrução - codifica todas as instruções em 3 endereços para posterior execução.
+Unidade de Endereçamento: executa cálculos de variáveis e endereçamentos.
+INTEL 386
+Possui nível de processamento similar a de um pequeno mainframe;
+Emula o Intel 286 e 8086;
+Trabalham com 8,16,32 de endereços de memória compatíveis;
+É similar ao 8086;
+Suas atividades são moldadas no cristal do sistema;
+Possuem 8 usos, sendo o sinal BHE divido em BE0 - BE3 (habilitação do barramento).
+Possuem mais 3 sinais novos: ADS (estado do endereço) - , BSD16 (compatibiliza pastilhas antigas) - , NA - next adress - indica aceleração do barramento; e os anteriores, tais como controlador de interrupções: INTr, NMI, Loock, Ready; Busy, Error, Hold e reset.
+Podem transferir de uma só vez uma palavra de 32 bits.
+Os sinais de controle W/R, D/C, M/IO representam respectivamente, escrita/leitura, dados/controle, memória/entra e saída.
+ORGANIZAÇÃO DA MEMÓRIA
+Trabalha com 2 bancos de 512 kbytes de memória, chamado banco par e banco impar. Endereços 0000H, 00002H residem no banco par e endereços como 00001H, FFFFF residem no banco impar.
+
+Implementação:
+
+
+
+Sistema de Temporização - Utiliza-se o sinal CLK (Clock) para as pastilhas microprocessadas Intel 8086/8088.
+OPERAÇÕES EM MODO MÁXIMO E MODO MÍNIMO
+
+O 8086/8088 possuem 2 modos: máximo e mínimo. Eles apresentam em sua implementação um pino chamado MN/MX(barrado) - que determina quando o nível lógico estiver alto - trabalha em modo mínimo. Nível lógico baixo trabalha em modo máximo.
+
+O sistema em modo mínimo é pequeno e trabalham com 1 CPU somente. Já o modo máximo trabalha com várias CPU(s).
+
+Dependendo do modo em utilização as funções podem mudar de valor.
+
+ARQUITETURA DO 8086/8088 NO MODO MÍNIMO
+
+- Neste modo, faz-se a interface de comunicação entre memória e dispositivos E/S.
+
+LINHAS DE ENDEREÇOS E DADOS
+
+VIA ENDEREÇOS - Carregam informações de endereçamento para memórias ou para portas E/s. Essas linhas recebem a codificação A0-A19, formando 20 bits de endereçamento. Além parte delas são utilizadas para acessar o espaço.
+
+VIA DE DADOS - Carregam dados de leitura e escrita da memória, da portas E/S e dos códigos de um controlador de interrupções. Essas linhas recebem codificação D0- D15 (8086) e D0-D7 (8088).
+
+As linhas de endereço são multiplexadas com a linha de dados, significando que trabalha às vezes com linha de endereços e outras vezes com linha de dados.
+
+SINAIS DE STATUS
+Os 4 bits significativos das linhas de endereçamento A16-A19 são também multiplexados com os bits do sinal de status - S3-S6. Os bits do sinal de status são colocados no barramento no mesmo tempo que os dados são transferidos através de outras linhas.
+Os bits S4 e S3, juntos, formam um código binário que identifica qual dos registradores foi usado para gerar o endereço físico.
+
+
+
+S5 - identifica o estado da interrupção;
+S6 - possui valor 0 - nível lógico baixo simbolizando que o 8087 está no barramento;
+S7 - permanece no hold.
+Os sinais são usados para interfaceamento com a memória e com E/S. Eles controlam a função do tipo: endereço válido, direção de dados, dados válidos para escrita e leitura.
+
+SINAIS DE CONTROLE
+W/R, D/C, M/IO, ALE, BHE, ADS (estado do endereço), BSD16 (compatibiliza pastilhas antigas), LOOK (troca de barramento), READY(estado da CPU), NA(acelera o barramento de endereços).
+ALE - habilitação do Latch de endereços - identifica quando a palavra chave está presente no barramento.
+BHE(barramento) - habilitação alta do endereçamento - seleciona o banco de memória.
+M/IO(barrado), DT/R(barrado) - identifica o tipo de ciclo que está acontecendo.
+RD(barrado), WR(barrado) - ciclo de leitura e escrita.
+DEN(barrado) - habilitação de dados - identifica a ocorrência de dados no barramento.
+SINAIS DE INTERRUPÇÃO
+INT R - pedido de interrução - permite a interrupção;
+INT A - aceita a interrupção;
+TEST - faz o teste do pino verificando se suspende ou aciona interrupções. (ele sincroniza a CPU com evento externo de hardware).
+NMI - interrupção não - mascarável - entrada de interrupção.
+Reset - reseta uma interrupção.
+SINAIS DE INTERFACE PARA DMA
+A interface DMA (Direct Memory Acess), está presente no modo mínimo e é manipulada através dos sinais HOLD, HLDA.
+ARQUITETURA DO 8086/8088 NO MODO MÁXIMO
+Neste modo, o microprocessador produz sinais para implementar em sistema multiprocessador/ co-processador.
+1 - MULTIPROCESSADOR - significa dizer que existe mais de 1 processador no mesmo sistema e cada um deles com seu próprio programas.
+2 - Co-processador - significa dizer que existe um 2 processador no sistema, contudo, os 2 não acessam o mesmo barramento simultaneamente.
+
+EXEMPLO DE USO DE BARRAMENTO
+
+Os principais elementos usados nos barramentos são:
+Arquitetura do PC;
+Interface de dados;
+Controle digital de processos;
+Criação de placa de expressão;
+INTERFACEAMENTO
+
+É o ato de fazer a comunicação do PC com o mundo exterior. Para isto existem passos a serem cumpridos:
+É o endereçamento, pois a CPU envia dados para locais específicos.
+Desenvolver a comunicação entre os dispositivos periféricos e o sistema microprocessado.
+3. BIBLIOGRAFIA
+
+MURDOCCA, M. J., HEURING, V. P. Introdução à Arquitetura de Computadores, 1a Ed., Editora Campus. ISBN 85-352-0684-1.
+
+STALLINGS, W. Arquitetura e Organização de Computadores, 5a Ed., Prentice Hall. ISBN 85-879-1853-2
+
+TANENBAUM, A. Organização Estruturada de Computadores, 5a Ed., Prentice Hall. ISBN 85-7605-067-6
+
+4. ANEXOS
+
+Baixe aqui os arquivos anexos.
+
+São estruturas prontas desenvolvidas no programa Circuit Maker. Neste arquivo contém: ULA, Multiplexador, Macro Mem, Somador, entre outros).
