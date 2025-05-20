@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define MAX_LINE 1024
-#define ARQUIVO "sherlock.txt"
+#define ARQUIVO "arquivo.txt"
 #define BUSCA "pa"
 
 int main(int argc, char *argv[])
