@@ -1,0 +1,186 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Arquitetura geral do projeto
+```
+projetoSorvete/
+│
+├── bin/                        # Executáveis gerados
+│
+├── build/                      # Objetos e arquivos de build temporários
+│
+├── include/                    # Headers públicos
+│   ├── App.h                   # Classe principal da aplicação
+│   ├── MainWindow.h            # Janela principal e WNDPROC
+│   ├── SimulationEngine.h      # Lógica de simulação do processo
+│   ├── HardwareComms.h         # Comunicação com placa externa
+│   ├── AnimationEngine.h       # Atualização e desenho das animações
+│   ├── StateModel.h            # Estruturas de dados do estado
+│   ├── Controllers/            # Lógica de controle e regras de negócio
+│   │   └── ProcessController.h
+│   └── Services/               # Serviços auxiliares
+│       ├── TimerService.h      # Timers de atualização (5 ms / 20 ms)
+│       └── LoggerService.h     # Logging de eventos e erros
+│
+├── res/                        # Recursos (.rc, ícones, menus)
+│   ├── resource.h
+│   ├── ProjetoSimSorvete.rc
+│   └── icon.ico
+│
+├── src/                        # Código-fonte
+│   ├── main.cpp                # WinMain: instancia App e executa loop
+│   ├── App.cpp                 # Inicialização de todos os módulos
+│   ├── MainWindow.cpp          # Criação da janela e roteamento de mensagens
+│   ├── SimulationEngine.cpp    # Calcula níveis de tanques, pH, temperatura
+│   ├── HardwareComms.cpp       # Leitura/escrita de sinais digitais e analógicos (5 ms)
+│   ├── AnimationEngine.cpp     # Renderização periódica (20 ms) das animações
+│   ├── StateModel.cpp          # Implementação do modelo de estado (tanques, sensores)
+│   ├── Controllers/            # Lógica de reação a eventos da UI
+│   │   └── ProcessController.cpp
+│   └── Services/
+│       ├── TimerService.cpp    # Abstrai SetTimer / KillTimer
+│       └── LoggerService.cpp   # Grava logs em arquivo ou console
+│
+├── tests/                      # (Opcional) testes unitários com Catch2 / Google Test
+│
+├── .gitignore
+├── README.md                   # Instruções de build e uso
+└── ProjetoSimSorvete.sln       # Solução do Visual Studio
+```
+
+Descrição de Cada Módulo
+------------------------
+
+### 1\. main.cpp & App
+
+*   **main.cpp**: Ponto de entrada (WinMain). Cria instância de App e entra no loop de mensagens.
+    
+*   **App**:
+    
+    *   Registra classes de janela.
+        
+    *   Inicializa serviços (TimerService, LoggerService).
+        
+    *   Cria MainWindow, SimulationEngine, HardwareComms, AnimationEngine, ProcessController e StateModel.
+        
+
+### 2\. MainWindow
+
+*   Registra e cria a janela principal.
+    
+*   Processa **WM\_COMMAND**, **WM\_TIMER**, **WM\_PAINT**, etc.
+    
+*   Encaminha eventos de UI (botões de válvula, PH, temperatura) ao ProcessController.
+    
+
+### 3\. HardwareComms
+
+*   Responsável pela interface com a placa externa via porta serial ou USB.
+    
+*   **Leitura** de sinais digitais (válvulas, nível) e analógicos (temperatura, pH) a cada **5 ms**.
+    
+*   **Escrita** de comandos de saída digitais/analógicos (acionamento de válvulas, motores).
+    
+
+### 4\. SimulationEngine
+
+*   Replica o comportamento da fábrica de sorvete:
+    
+    1.  **Mistura**, **Pasteurização**, **Homogeneização**, **Maturação**, **Congelamento**.
+        
+    2.  Cálculo de níveis de tanques (capacidade de 100 L, 30 L, 40 L, vazão de 200 mL/s).
+        
+    3.  Cálculo de temperatura e pH (resolução 10 bits; 0–1023).
+        
+*   Expõe APIs para leitura e escrita de variáveis de processo no StateModel.
+    
+
+### 5\. AnimationEngine
+
+*   Atualiza e redesenha o estado visual a cada **20 ms**.
+    
+*   Animações:
+    
+    *   Válvulas (aberta/fechada)
+        
+    *   Misturador giratório
+        
+    *   Esteira transportadora com potes (movimentação / derramamento)
+        
+    *   Mudança de cor do produto (sabor)
+        
+    *   Indicadores numéricos (temperatura, pH)
+        
+
+### 6\. StateModel
+
+*   Contém o **estado** global da simulação:
+    
+    *   Níveis de tanques (base, dosagens, saída)
+        
+    *   Temperatura, pH
+        
+    *   Flags de válvulas e sensores digitais
+        
+*   Implementado como **singleton** thread-safe ou objeto único passado por referência.
+    
+
+### 7\. ProcessController
+
+*   Traduz comandos da UI e leituras de HardwareComms em ações na simulação.
+    
+*   Exemplo: ao receber “Liga válvula tanque 1”, atualiza StateModel e envia sinal ao HardwareComms.
+    
+*   Também dispara eventos de log (via LoggerService).
+    
+
+### 8\. Services
+
+*   **TimerService**: Gestão centralizada de timers WinAPI para atualização de comunicação (5 ms) e animação (20 ms).
+    
+*   **LoggerService**: Grava eventos importantes (start/stop de processos, erros de comunicação, mudanças de pH).
+
+
+# Onde o Estado Vive
+*   **StateModel** armazena todo o estado da fábrica: tanques, temperatura, pH, sensores.
+    
+*   Acesso concorrente:
+    
+    *   **HardwareComms** grava leituras no StateModel.
+        
+    *   **SimulationEngine** lê/escreve parâmetros do StateModel.
+        
+    *   **AnimationEngine** lê apenas para desenhar.
+        
+    *   **ProcessController** coordena entre UI, hardware e simulação.
+
+
+# Fluxo e Conexões (mermaid)
+```
+graph LR
+  A[WinMain] --> B[App]
+  B --> C[MainWindow]
+  B --> D[SimulationEngine]
+  B --> E[HardwareComms]
+  B --> F[AnimationEngine]
+  B --> G[ProcessController]
+  B --> H[TimerService]
+  B --> I[LoggerService]
+  
+  C -- eventos UI --> G
+  H -- WM_TIMER 5ms --> E
+  H -- WM_TIMER 20ms --> F
+  E -- leituras --> StateModel
+  D -- lógica --> StateModel
+  G -- comando --> E
+  G -- atualização --> D
+  F -- renderiza --> StateModel
+  any --> I[LoggerService]  
+  ```
+*   **Timers** disparam atualizações periódicas.
+    
+*   **ProcessController** é o “coração” que articula UI, hardware e simulação.
+    
+*   **LoggerService** pode ser chamado de qualquer módulo para audit trail.

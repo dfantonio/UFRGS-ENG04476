@@ -1,0 +1,251 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+A seguir, um **plano de execução granular** para construir o MVP do Simulador de Fábrica de Sorvete. Cada tarefa é **autônoma**, **testável** e foca num único aspecto. Você pode delegar cada item a um LLM de engenharia, testando ao final de cada etapa.
+
+---
+
+## 1. Configuração Inicial do Projeto
+
+1.1. **Criar solução no Visual Studio**
+
+* **Início:** abrir o Visual Studio
+* **Fim:** solução `ProjetoSimuladorSorvete.sln` criada e salva
+
+1.2. **Adicionar projeto C++ Win32**
+
+* **Início:** dentro da solução criada
+* **Fim:** projeto `ProjetoSimuladorSorvete` do tipo “Win32 Console Application” (ajustado para WinAPI) presente
+
+1.3. **Configurar pastas vazias**
+
+* **Início:** no Solution Explorer
+* **Fim:** pastas `include/`, `src/`, `res/`, `build/`, `bin/` criadas no projeto
+
+1.4. **Ajustar propriedades de build**
+
+* **Início:** propriedades do projeto
+* **Fim:** “Output Directory” = `..\bin\`, “Intermediate Directory” = `..\build\`
+
+---
+
+## 2. Skeleton da Aplicação
+
+2.1. **Criar `main.cpp` com stub de WinMain**
+
+* **Início:** abrir `src/main.cpp`
+* **Fim:** função `WinMain` vazia compilando sem erros
+
+2.2. **Registrar classe de janela em `App.h`/`App.cpp`**
+
+* **Início:** criar `include/App.h` e `src/App.cpp`
+* **Fim:** método `App::Init()` registrando `WNDCLASS` com `RegisterClassEx` compila sem erros
+
+2.3. **Instanciar `App` em `WinMain`**
+
+* **Início:** editar `main.cpp`
+* **Fim:** `App app; app.Init();` presente e projeto roda (sem janela)
+
+---
+
+## 3. Criar Janela Principal
+
+3.1. **Definir `MainWindow.h`**
+
+* **Início:** criar `include/MainWindow.h` com classe `MainWindow` e `static LRESULT CALLBACK WndProc`
+* **Fim:** cabeçalho válido sem erros de sintaxe
+
+3.2. **Implementar `MainWindow::CreateAndShow()`**
+
+* **Início:** em `src/MainWindow.cpp`
+* **Fim:** método que chama `CreateWindowEx` e `ShowWindow` compila e abre janela em branco
+
+3.3. **Ligar `App` à `MainWindow`**
+
+* **Início:** em `App.cpp`
+* **Fim:** `MainWindow::CreateAndShow()` chamado dentro de `App::Run()`, executa message loop
+
+3.4. **Testar janela básica**
+
+* **Início:** executar projeto
+* **Fim:** janela WinAPI aparece, responde a fechar
+
+---
+
+## 4. Serviço de Temporizadores
+
+4.1. **Criar `TimerService.h`**
+
+* **Início:** criar interface com `StartTimer(id, interval)` e `StopTimer(id)`
+* **Fim:** cabeçalho compilando
+
+4.2. **Implementar `TimerService.cpp` usando SetTimer/KillTimer**
+
+* **Início:** em `src/Services/TimerService.cpp`
+* **Fim:** timers configuráveis disparam `WM_TIMER` na janela principal
+
+4.3. **Testar timer de 5 ms**
+
+* **Início:** no `App::Init()`, chamar `StartTimer(1,5)`
+* **Fim:** contador de ticks exibido em console a cada \~5 ms
+
+4.4. **Testar timer de 20 ms**
+
+* **Início:** adicionar `StartTimer(2,20)`
+* **Fim:** segundo contador exibido a \~20 ms
+
+---
+
+## 5. Modelo de Estado
+
+5.1. **Criar `StateModel.h`**
+
+* **Início:** definir struct com campos: níveis de tanques, temperatura, pH, flags de válvulas
+* **Fim:** header sem erros
+
+5.2. **Implementar singleton em `StateModel.cpp`**
+
+* **Início:** método `GetInstance()` retornando referência thread-safe
+* **Fim:** instância única funcionando
+
+5.3. **Testar leitura/gravação de estado**
+
+* **Início:** em `main.cpp`, `auto &st = StateModel::GetInstance(); st.temperature = 25;`
+* **Fim:** valor lido corretamente via `printf`
+
+---
+
+## 6. Comunicação com Hardware
+
+6.1. **Criar `HardwareComms.h`**
+
+* **Início:** definir métodos `ReadInputs()` e `WriteOutputs()`
+* **Fim:** header compilando
+
+6.2. **Implementar stub em `HardwareComms.cpp`**
+
+* **Início:** métodos apenas logam “read”/“write”
+* **Fim:** compila sem erros
+
+6.3. **Integrar com timer de 5 ms**
+
+* **Início:** em `WM_TIMER` do timer 1, chamar `HardwareComms::Get().ReadInputs()`
+* **Fim:** logs periódicos a cada 5 ms
+
+6.4. **Testar stub de comunicação**
+
+* **Início:** executar app
+* **Fim:** ver “ReadInputs” no console a \~5 ms
+
+---
+
+## 7. Motor de Simulação
+
+7.1. **Criar `SimulationEngine.h`**
+
+* **Início:** métodos `UpdateProcess(deltaTime)` e `Initialize()`
+* **Fim:** header sem erros
+
+7.2. **Implementar lógica básica em `SimulationEngine.cpp`**
+
+* **Início:** em `UpdateProcess`, incrementar nível de tanque de 200 mL/s
+* **Fim:** valor do tanque atualiza com base no deltaTime
+
+7.3. **Chamar `UpdateProcess` no timer de 5 ms**
+
+* **Início:** no mesmo bloco de `ReadInputs()`
+* **Fim:** estado de nível de tanque cresce conforme esperado
+
+7.4. **Testar crescimento de nível**
+
+* **Início:** resetar nível a 0 antes de rodar
+* **Fim:** após 1 s, nível próximo de 1000 mL
+
+---
+
+## 8. Motor de Animação
+
+8.1. **Criar `AnimationEngine.h`**
+
+* **Início:** método `Render(HDC hdc)`
+* **Fim:** header sem erros
+
+8.2. **Implementar stub de render em `AnimationEngine.cpp`**
+
+* **Início:** desenhar retângulo simples no `WM_PAINT`
+* **Fim:** retângulo aparece
+
+8.3. **Chamar no timer de 20 ms**
+
+* **Início:** em `WM_TIMER` do timer 2, chamar `InvalidateRect` da janela
+* **Fim:** janela redesenha a \~50 fps
+
+8.4. **Testar animação estática**
+
+* **Início:** rodar app
+* **Fim:** retângulo pulsa sem quebrar
+
+---
+
+## 9. Controlador de Processo
+
+9.1. **Criar `ProcessController.h`**
+
+* **Início:** métodos `OnValveToggle(id, state)` e `OnParameterChange(param, value)`
+* **Fim:** header sem erros
+
+9.2. **Implementar delegação em `ProcessController.cpp`**
+
+* **Início:** métodos atualizam `StateModel` e chamam `HardwareComms::Get().WriteOutputs()`
+* **Fim:** toggle de válvula reflete no state e gera log
+
+9.3. **Ligar botões de UI ao controlador**
+
+* **Início:** no `WM_COMMAND`, identificar comandos e chamar `ProcessController`
+* **Fim:** clicar botão altera estado conforme esperado
+
+9.4. **Testar fluxo UI → Controlador → HardwareComms**
+
+* **Início:** clicar botão simulado
+* **Fim:** saída “WriteOutputs” com dados corretos
+
+---
+
+## 10. Serviço de Logging
+
+10.1. **Criar `LoggerService.h`**
+
+* **Início:** métodos `LogInfo(msg)` e `LogError(msg)`
+* **Fim:** header sem erros
+
+10.2. **Implementar em `LoggerService.cpp`**
+
+* **Início:** grava em arquivo `logs.txt`
+* **Fim:** arquivo atualizado
+
+10.3. **Inserir logs em pontos-chave**
+
+* **Início:** em `ProcessController`, `HardwareComms`, `SimulationEngine`
+* **Fim:** eventos críticos aparecem em `logs.txt`
+
+10.4. **Testar arquivo de log**
+
+* **Início:** executar vários eventos
+* **Fim:** `logs.txt` contém entradas formatadas
+
+---
+
+### Conclusão do MVP
+
+Ao finalizar a **etapa 10**, você terá:
+
+* Janela WinAPI com UI básica
+* Timer de alta e baixa frequência funcionando
+* Leitura/escrita de estado e hardware stub
+* Simulação de processo integrada
+* Animação simples a 50 fps
+* Controlador de UI e serviço de log
+
+A partir daqui, você pode iterar adicionando detalhes de interface (menus, gráficos), persistência de cenários e refinamento da simulação.

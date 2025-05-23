@@ -123,13 +123,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="projetoSorvete.h" />
+    <ClInclude Include="include\AnimationEngine\AnimationEngine.h" />
+    <ClInclude Include="include\App.h" />
+    <ClInclude Include="include\Controllers\ProcessController.h" />
+    <ClInclude Include="include\HardwareComms\HardwareComms.h" />
+    <ClInclude Include="include\MainWindow.h" />
+    <ClInclude Include="include\Services\TimerService.h" />
+    <ClInclude Include="include\SimulationService\SimulationService.h" />
+    <ClInclude Include="include\StateModel.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="projetoSorvete.cpp" />
+    <ClCompile Include="src\AnimationEngine\AnimationEngine.cpp" />
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Controllers\ProcessController.cpp" />
+    <ClCompile Include="src\HardwareComms\HardwareComms.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\Services\TimerService.cpp" />
+    <ClCompile Include="src\SimulationService\SimulationService.cpp" />
+    <ClCompile Include="src\StateModel.cpp" />
+    <ClCompile Include="teste.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="projetoSorvete.rc" />
